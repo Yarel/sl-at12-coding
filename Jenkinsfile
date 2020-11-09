@@ -12,15 +12,23 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
+        stage('Test Coverage') {
             steps {
                 echo 'Testing..'
                 sh './gradlew test'
+              }
+
             }
             post {
                 always {
-                    junit 'build/test-results/test/**/*.xml'
-                    archiveArtifacts 'build/reports/**/*'
+                  publishHTML target: [
+                      allowMissing: false,
+                      alwaysLinkToLastBuild: false,
+                      keepAll: true,
+                      reportDir: 'build/reports/jacoco/coverage',
+                      reportFiles: 'index.html',
+                      reportName: 'RCov Report'
+                    ]
                 }
             }
         }
