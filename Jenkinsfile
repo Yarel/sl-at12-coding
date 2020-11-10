@@ -16,8 +16,6 @@ pipeline {
             steps {
                 echo 'Testing..'
                 sh './gradlew test'
-              }
-
             }
             post {
                 always {
@@ -25,9 +23,19 @@ pipeline {
                       allowMissing: false,
                       alwaysLinkToLastBuild: false,
                       keepAll: true,
-                      reportDir: 'build/reports/jacoco/coverage',
+                      reportDir: 'build/reports/jacoco/test/html',
                       reportFiles: 'index.html',
-                      reportName: 'RCov Report'
+                      reportName: 'Test Coverage'
+                    ]
+                }
+                failure {
+                  publishHTML target: [
+                      allowMissing: false,
+                      alwaysLinkToLastBuild: false,
+                      keepAll: true,
+                      reportDir: 'build/reports/checkstyle',
+                      reportFiles: 'main.html',
+                      reportName: 'CheckStyle'
                     ]
                 }
             }
