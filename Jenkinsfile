@@ -1,9 +1,9 @@
 pipeline {
     agent any
-    environment {
-      ARTIFACTORY_USER = credentials('artifactory_user')
-      ARTIFACTORY_PASSWORD = credentials('artifactory_password')
-    }
+    // environment {
+    // //   ARTIFACTORY_USER = credentials('artifactory_user')
+    // //   ARTIFACTORY_PASSWORD = credentials('artifactory_password')
+    // }
     stages {
         stage('Assemble') {
             steps {
@@ -48,12 +48,12 @@ pipeline {
             steps {
                 sh './gradlew clean build artifactoryPublish --console verbose -P artifactory_user=$ARTIFACTORY_USER -P artifactory_password=$ARTIFACTORY_PASSWORD'
             }
-            post {
-                always {
-                    archiveArtifacts 'build/distributions/**/*.tar'
-                    archiveArtifacts 'build/distributions/**/*.zip'
-                }
-            }
+            // post {
+            //     always {
+            //         archiveArtifacts 'build/distributions/**/*.tar'
+            //         archiveArtifacts 'build/distributions/**/*.zip'
+            //     }
+            // }
         }
     }
 }
